@@ -1,0 +1,21 @@
+version: '3'
+services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/deine-datenbank
+      SPRING_DATASOURCE_USERNAME: dein-db-benutzername
+      SPRING_DATASOURCE_PASSWORD: dein-db-passwort
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: deine-datenbank
+      POSTGRES_USER: dein-db-benutzername
+      POSTGRES_PASSWORD: dein-db-passwort
