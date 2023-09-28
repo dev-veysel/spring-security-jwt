@@ -15,7 +15,9 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                gv.checkout()
+                script {
+                    gv.checkout()
+                }
             }
         }
 
