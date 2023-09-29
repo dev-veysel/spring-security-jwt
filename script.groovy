@@ -24,7 +24,7 @@ def testApp() {
 
 def deployApp(){
     // Docker-Build
-    sh 'docker build -t hackers-security .'
+    bat 'docker build -t hackers-security .'
 
     // Docker-Push zu einem Docker-Registry (z. B. Docker Hub)
     // sh 'docker push DEIN_DOCKER_REGISTRY/DEIN_DOCKER_IMAGE_NAME:VERSION'
