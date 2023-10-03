@@ -16,6 +16,6 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: deine-datenbank
-      POSTGRES_USER: dein-db-benutzername
-      POSTGRES_PASSWORD: dein-db-passwort
+      POSTGRES_DB: hackers_security
+      POSTGRES_USER: veysel
+      POSTGRES_PASSWORD: Haydibismillah
