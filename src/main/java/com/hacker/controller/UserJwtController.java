@@ -1,7 +1,7 @@
 package com.hacker.controller;
 
 
-import com.hacker.dto.message.CompanyResponse;
+import com.hacker.dto.response.CompanyResponse;
 import com.hacker.dto.message.ResponseMessage;
 import com.hacker.dto.request.LoginRequest;
 import com.hacker.dto.request.RegisterRequest;

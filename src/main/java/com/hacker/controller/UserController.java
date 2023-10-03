@@ -2,7 +2,7 @@ package com.hacker.controller;
 
 
 import com.hacker.dto.UserDTO;
-import com.hacker.dto.message.CompanyResponse;
+import com.hacker.dto.response.CompanyResponse;
 import com.hacker.dto.message.ResponseMessage;
 import com.hacker.dto.request.AdminUserUpdateRequest;
 import com.hacker.dto.request.UpdatePasswordRequest;

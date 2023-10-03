@@ -1,4 +1,4 @@
-package com.hacker.dto.message;
+package com.hacker.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

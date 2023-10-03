@@ -2,7 +2,7 @@ package com.hacker.service;
 
 
 import com.hacker.dto.CompanyDTO;
-import com.hacker.dto.message.CompanyResponse;
+import com.hacker.dto.response.CompanyResponse;
 import com.hacker.dto.message.ResponseMessage;
 import com.hacker.domain.Company;
 import com.hacker.exception.ResourceNotFoundException;
