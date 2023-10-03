@@ -21,7 +21,6 @@ spring:
 
 hackers_security:
   app:
-    jwtSecret: safeRent@!10
     jwtExpirationMs: 86400000
 
 info:
