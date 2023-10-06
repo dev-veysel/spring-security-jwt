@@ -17,43 +17,43 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@ControllerAdvice // merkezi exception handle etmek için
-public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHandler { //@ControllerAdvice + ResponseEntityExceptionHandler geben mir 100% Zugriff auf die Zentralisierung des Handler!
-
-    // AMACIM : custom bir exception sistemini kurmak, gelebilecek exceptionları
-    // override ederek, istediğim yapıda cevap verilmesini sağlamak
+@ControllerAdvice
+public class HackersSecurityExceptionHandler extends ResponseEntityExceptionHandler {
+    //@ControllerAdvice + ResponseEntityExceptionHandler geben 100% Zugriff
+    // auf die Zentralisierung des Handler!
 
     //FactoryDesignPattern!! ( die class die behandelt werden soll )
-    Logger logger = LoggerFactory.getLogger(hackersSecurityExceptionHandler.class);
+    Logger logger = LoggerFactory.getLogger(HackersSecurityExceptionHandler.class);
 
     private ResponseEntity<Object> buildResponseEntity(ApiResponseError error) {
         logger.error(error.getMessage());                                        // <-------- hier kommt der Logger rein, dadurch wird es überall aufgerufen!
         return new ResponseEntity<>(error,error.getStatus());
     }
 
-    //ResourceNotFoundException
+    // ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
-    protected ResponseEntity<Object> handleResourceNotFoundException( //Object, da er jede Wiedergabe handle soll
+    protected ResponseEntity<Object> handleResourceNotFoundException( //Object, da es jede Wiedergabe handle soll (String oder was anderes)
             ResourceNotFoundException ex, WebRequest request) { //WebRequest zeigt, von welchem Request es gekommen ist
 
-        //Schablone, wie der Error angezeigt werden soll!!
+        //Schablone, wie Error angezeigt werden soll!!
         ApiResponseError error = new ApiResponseError(  HttpStatus.NOT_FOUND,
                                                         ex.getMessage(),
-                                                        request.getDescription(false)); //unnützige Infos nicht  anzeigen!
-        return buildResponseEntity(error);
+                                                        request.getDescription(false)); //unnütze Information nicht anzeigen!
+        return buildResponseEntity(error); // statt es mehrmals zu schreiben method extracting!
     }
 
     // ConflictException
     @ExceptionHandler(ConflictException.class)
     protected ResponseEntity<Object> handleConflictException(
             ConflictException ex, WebRequest request) {
+
         ApiResponseError error = new ApiResponseError(  HttpStatus.CONFLICT,
                                                         ex.getMessage(),
                                                         request.getDescription(false));
         return buildResponseEntity(error);
     }
 
-    //AccessDeniedException
+    // AccessDeniedException
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(
             AccessDeniedException ex, WebRequest request) {
@@ -64,9 +64,9 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
         return buildResponseEntity(error);
     }
 
-    //AuthenticationException
+    // AuthenticationException
     @ExceptionHandler(AuthenticationException.class)
-    protected ResponseEntity<Object> handleAuthenticationException( // protected !!!!
+    protected ResponseEntity<Object> handleAuthenticationException(
             AuthenticationException ex, WebRequest request) {
 
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
@@ -75,24 +75,24 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
         return buildResponseEntity(error);
     }
 
-
-    //AuthenticationException
+    // AuthenticationException
     @ExceptionHandler(BadRequestException.class)
-    protected ResponseEntity<Object> handleBadRequestException( // protected !!!!
-                                                                BadRequestException ex, WebRequest request) {
+    protected ResponseEntity<Object> handleBadRequestException(
+            BadRequestException ex, WebRequest request) {
 
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
-                request.getDescription(false));
+                                                        ex.getMessage(),
+                                                        request.getDescription(false));
         return buildResponseEntity(error);
     }
 
 
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
-                request.getDescription(false))  ;
+                                                        ex.getMessage(),
+                                                        request.getDescription(false))  ;
         return buildResponseEntity(error);
     }
 
@@ -105,23 +105,25 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        //List, da wir die Länge nicht wissen! // getBindingResult + getFieldErrors wenn ich alle Error schnappen will!
+
+        //List, da wir die Länge nicht wissen!
+        // getBindingResult + getFieldErrors, wenn ich alle Error einfangen will!
         List<String> errors = ex.getBindingResult().getFieldErrors().
-                stream().
-                map(e->e.getDefaultMessage()).
-                collect(Collectors.toList());
+                                                        stream(). // dem User soll nur die Message erreichen und keine weiteren Informationen
+                                                        map(e->e.getDefaultMessage()).
+                                                        collect(Collectors.toList());
 
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
-                errors.get(0).toString(),
-                request.getDescription(false))  ;
+                                                        errors.get(0).toString(),
+                                                        request.getDescription(false));
         return buildResponseEntity(error);
     }
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
-                request.getDescription(false))  ;
+                                                        ex.getMessage(),
+                                                        request.getDescription(false))  ;
         return buildResponseEntity(error);
     }
 
@@ -129,8 +131,8 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
     @Override
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiResponseError error = new ApiResponseError(  HttpStatus.INTERNAL_SERVER_ERROR,
-                ex.getMessage(),
-                request.getDescription(false))  ;
+                                                        ex.getMessage(),
+                                                        request.getDescription(false))  ;
         return buildResponseEntity(error);
     }
 
@@ -138,8 +140,8 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiResponseError error = new ApiResponseError(  HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
-                request.getDescription(false))  ;
+                                                        ex.getMessage(),
+                                                        request.getDescription(false))  ;
         return buildResponseEntity(error);
     }
 
@@ -160,13 +162,6 @@ public class hackersSecurityExceptionHandler extends ResponseEntityExceptionHand
         ApiResponseError error = new ApiResponseError(  HttpStatus.INTERNAL_SERVER_ERROR,
                                                         ex.getMessage(),
                                                         request.getDescription(false));
-
         return buildResponseEntity(error);
     }
-
-
-
-
-
-
 }

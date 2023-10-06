@@ -6,40 +6,38 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 
 public class ApiResponseError {
-    // AMACIM : custom error mesajlarının ana soblonunu ouşturmak
-
-
+    // Die veränderte Anzeige in Postman! Schablone
 
     private HttpStatus status;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime timestamp;
 
-    private String message;
+    private String message; // entnimmt Nachricht von ErrorMessage
 
-    private String requestURI ;
+    private String requestURI;
 
-    // Die veränderte Anzeige in Postman!! Schablone
 
+    //Constructor
     private ApiResponseError(){
         timestamp = LocalDateTime.now();
-    }  //1
+    }
 
-    public ApiResponseError(HttpStatus status){                     //1+2
-        this(); // yukardaki parametresiz private const. çağırılıyor!
+    public ApiResponseError(HttpStatus status){
+        this();
         this.message="Unexpected Error";
         this.status = status ;
     }
 
-    public ApiResponseError(HttpStatus status, String message, String requestURI) {     //1+2+3
-        this(status); // yukardaki 1 parametreli, public const. çağrılıyor
+    public ApiResponseError(HttpStatus status, String message, String requestURI) {
+        this(status);
         this.message = message;
         this.requestURI = requestURI;
     }
 
 
 
-    // GETTER -SETTER
+    // GETTER - SETTER
     public HttpStatus getStatus() {
         return status;
     }
@@ -48,6 +46,7 @@ public class ApiResponseError {
         this.status = status;
     }
 
+    // nur getter!
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
