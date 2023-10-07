@@ -35,5 +35,4 @@ public class RegisterRequest {
     @Size(min=4 , max=20, message="Please provide Correct Size of Password")
     @NotBlank(message="Please provide your password")
     private String password;
-
 }

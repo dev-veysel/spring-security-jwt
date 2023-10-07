@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class HackersSecurityExceptionHandler extends ResponseEntityExceptionHandler {
-    //@ControllerAdvice + ResponseEntityExceptionHandler geben 100% Zugriff
+    // @ControllerAdvice + ResponseEntityExceptionHandler geben 100% Zugriff
     // auf die Zentralisierung des Handler!
 
     //FactoryDesignPattern!! ( die class die behandelt werden soll )
     Logger logger = LoggerFactory.getLogger(HackersSecurityExceptionHandler.class);
 
     private ResponseEntity<Object> buildResponseEntity(ApiResponseError error) {
-        logger.error(error.getMessage());                                        // <-------- hier kommt der Logger rein, dadurch wird es überall aufgerufen!
+        logger.error(error.getMessage());// <--hier kommt der Logger rein, dadurch wird es überall aufgerufen!
         return new ResponseEntity<>(error,error.getStatus());
     }
 
@@ -157,7 +157,7 @@ public class HackersSecurityExceptionHandler extends ResponseEntityExceptionHand
 
     //dede
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<Object> handleGeneralException( Exception ex, WebRequest request) {
+    protected ResponseEntity<Object> handleGeneralException(Exception ex, WebRequest request) {
 
         ApiResponseError error = new ApiResponseError(  HttpStatus.INTERNAL_SERVER_ERROR,
                                                         ex.getMessage(),

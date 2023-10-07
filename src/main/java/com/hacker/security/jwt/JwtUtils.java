@@ -17,25 +17,26 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    private final SecretKey jwtSecret = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS512);
+    @Value("${hackers_security.app.jwtSecret}")
+    private String jwtSecret;
 
     @Value("${hackers_security.app.jwtExpirationMs}")// 24 Stunden
     private Long jwtExpirationMs;
 
-    // !!! generate JWT token
+    // Generate JWT token
     public String generateJwtToken(UserDetails userDetails){
-
         return Jwts.builder() //JWT Token Informationen!
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs)) // 24 Stunden
-                .signWith(jwtSecret)
-                .compact();
+                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs)) // JETZT + 24 Stunden
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact(); //<-- sammelt alles zusammen
     }
 
-    // JWT Token -> email extrahieren
+    // JWT Token -> email extrahieren (damit wir die unique Email des Users erhalten können)
     public String getEmailFromToken(String token){
-        return Jwts.parser().setSigningKey(jwtSecret) //SecretKey nur bei uns, verschlüsseltes beim Client!
+        return Jwts.parser()
+                .setSigningKey(jwtSecret) //SecretKey nur bei uns, verschlüsseltes beim Client!
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -44,11 +45,12 @@ public class JwtUtils {
     // JWT validate
     public boolean validateJwtToken(String token){
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(jwtSecret)
+                    .parseClaimsJws(token);
             return true;
-
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException |
-                 IllegalArgumentException e) {
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |
+                 SignatureException | IllegalArgumentException e) {
             logger.error(String.format(
                     ErrorMessage.JWTTOKEN_ERROR_MESSAGE, e.getMessage()));
         }

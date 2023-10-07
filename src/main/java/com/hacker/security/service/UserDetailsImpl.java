@@ -20,7 +20,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    // user ---> UserDetails
+    // user ---> UserDetails: Informationen des Users in UserDetails umgewandelt
     public static UserDetailsImpl build(User user) {
         List<SimpleGrantedAuthority> authorities = user.getRoles().
                 stream().

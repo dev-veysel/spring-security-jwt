@@ -54,7 +54,7 @@ public class UserService {
     }
 
     public void saveUser(RegisterRequest registerRequest){
-        //!!! DTO dan gelen username sistemde daha önce var mı ???
+        // Existiert der angegebene User?
         if(userRepository.existsByEmail(registerRequest.getEmail())){
             throw new ConflictException(
                     String.format(ErrorMessage.EMAIL_ALREADY_EXIST_MESSAGE,
@@ -67,7 +67,7 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
 
-        //!!! Db ye gitmeden önce şifre encode edilecek
+        // !!! Db ye gitmeden önce şifre encode edilecek
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
         //!!! yeni kullanıcının gerekli bilgilerini setleyip DB ye gönderiyoruz

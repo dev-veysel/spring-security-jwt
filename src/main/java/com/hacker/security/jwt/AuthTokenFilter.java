@@ -25,7 +25,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
 
-    //Implement!
+    // Implemented
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -46,7 +46,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception e) {
-            logger.error("User not Found {} : ", e.getMessage());
+            logger.error("User not found {} : ", e.getMessage());
         }
         filterChain.doFilter(request,response);
 
@@ -58,7 +58,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(header) && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
-
         return null;
     }
 

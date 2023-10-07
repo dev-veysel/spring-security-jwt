@@ -61,15 +61,13 @@ public class UserJwtController {
              Authentication authentication =
                   authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-            // !!! Kullanıcı bu aşamada valide edildi ve Token üretimine geçiliyor
+            // User wurde validate + Token erstellen
              UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //getPrincipal -> Current Login olan kullancinin bilgilerni UserDetails türünden getiriyor!
              String jwtToken = jwtUtils.generateJwtToken(userDetails);
 
-             // !!! JWT token client tarafına gönderiliyor
+             // Token wird zum Client geschickt
             LoginResponse loginResponse = new LoginResponse(jwtToken);
 
             return new ResponseEntity<>(loginResponse,HttpStatus.OK);
     }
-
-
 }

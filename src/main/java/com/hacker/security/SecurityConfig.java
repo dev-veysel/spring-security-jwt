@@ -26,11 +26,9 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     @Autowired
     private UserDetailsService userDetailsService;
 
-    //FILTER!
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -78,7 +76,7 @@ public class SecurityConfig {
     //*************** PASSWORD ENCODER ****************************
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(10); //4-31-- Nicht >15 sonst viel Speicher
     }
 
 
@@ -115,7 +113,4 @@ public class SecurityConfig {
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
-
-
-
 }

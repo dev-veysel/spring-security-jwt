@@ -19,8 +19,19 @@ spring:
     properties:
       '[hibernate.format_sql]': true
 
+logging:
+  file:
+    name: log/hackers_security.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+  level:
+    '[org.springframework.web]' : WARN
+    '[org.hibernate]' : INFO
+    '[com.hacker]' : DEBUG
+
 hackers_security:
   app:
+    jwtSecret: hackSec39!@5a
     jwtExpirationMs: 86400000
 
 info:
