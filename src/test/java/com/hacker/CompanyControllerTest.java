@@ -30,18 +30,21 @@ public class CompanyControllerTest {
     }
 
     @Test
-    public void testGetAllCompanies() {
+    void testGetAllCompanies() {
         // Erstelle eine Beispiel-Liste von CompanyDTOs, die der Service zurückgeben würde
+        // GIVEN
         List<CompanyDTO> sampleCompanyDTOList = new ArrayList<>();
         // Füge hier beliebige CompanyDTO-Objekte hinzu
 
         // Stelle sicher, dass der CompanyService das erwartete Verhalten aufweist
+        // WHEN
         when(companyService.getAllCompanies()).thenReturn(sampleCompanyDTOList);
 
         // Rufe die Methode des Controllers auf
         ResponseEntity<List<CompanyDTO>> responseEntity = companyController.getAllCompanies();
 
         // Überprüfe, ob die Methode ResponseEntity.ok() zurückgibt
+        // THEN
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // Überprüfe, ob die zurückgegebene Liste von CompanyDTOs dieselbe ist wie die Beispielliste

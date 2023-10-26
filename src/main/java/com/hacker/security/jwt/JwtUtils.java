@@ -17,8 +17,7 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${hackers_security.app.jwtSecret}")
-    private String jwtSecret;
+    private final SecretKey jwtSecret = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS512);
 
     @Value("${hackers_security.app.jwtExpirationMs}")// 24 Stunden
     private Long jwtExpirationMs;
@@ -29,7 +28,7 @@ public class JwtUtils {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs)) // JETZT + 24 Stunden
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(jwtSecret)
                 .compact(); //<-- sammelt alles zusammen
     }
 
