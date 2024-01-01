@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/home-style.css">
+    <script src="../static/javascript/home-js.js"></script>
+    <title>Hackers Security - We secure your digital life</title>
+</head>
+
+
+
+<body>
+
+<header>
+    <h1><p class="highlighted" style="text-align: center"> Hackers Security<p/></h1>
+</header>
+
+<h3>Welcome</h3>
+----------------------------------------------------------------
+<br>
+
+<p>
+    User: <span sec:authentication="principal.username"></span>
+    <br><br>
+    Role: <span sec:authentication="principal.authorities"></span>
+</p>
+----------------------------------------------------------------
+<br>
+<p>
+    <a th:href="@{/admins}">Admin Meeting</a>
+    (Only for Admins)
+</p>
+<p>
+    <a th:href="@{/users}">Users Meeting</a>
+    (Only for Users)
+</p>
+
+
+
+<!-- Adding a logout button-->
+<form action="#" th:action="@{/logout}" method="post"></form>
+<input type="submit" value="Logout" />
+<br><br><br>
+
+
+
+<script src="../static/javascript/home-js.js"></script>
+<footer>&copy; 2023 Hackers Security. Alle Rechte vorbehalten.</footer>
+
+</body>
+</html>

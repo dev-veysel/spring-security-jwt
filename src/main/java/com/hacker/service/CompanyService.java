@@ -9,6 +9,8 @@ import com.hacker.exception.ResourceNotFoundException;
 import com.hacker.exception.message.ErrorMessage;
 import com.hacker.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

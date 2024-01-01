@@ -11,7 +11,8 @@ import java.util.List;
 
 /* **********************      Welcome to Hackers Security - API     **************************** */
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -22,7 +23,6 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id")
-    @Setter(AccessLevel.NONE)
     private Integer id;
 
     @Size(min = 3, max = 40, message = "Your company name '${validatedValue}' must be between {min} and {max} letters long! \n Please try again.")

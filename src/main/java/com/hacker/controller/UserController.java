@@ -8,6 +8,7 @@ import com.hacker.dto.request.AdminUserUpdateRequest;
 import com.hacker.dto.request.UpdatePasswordRequest;
 import com.hacker.dto.request.UserUpdateRequest;
 import com.hacker.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v3/user")
+@Tag(name = "CRUD REST APIs for User Controller")
 public class UserController {
 
     private final UserService userService;

@@ -46,7 +46,7 @@ public class ApiResponseError {
         this.status = status;
     }
 
-    // nur getter!
+    // LocalDateTime  -> nur getter!
     public LocalDateTime getTimestamp() {
         return timestamp;
     }

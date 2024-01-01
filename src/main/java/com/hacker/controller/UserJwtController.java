@@ -8,6 +8,7 @@ import com.hacker.dto.request.RegisterRequest;
 import com.hacker.dto.response.LoginResponse;
 import com.hacker.security.jwt.JwtUtils;
 import com.hacker.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping
+@Tag(name = "USER JWT - Login & Register Controller")
 public class UserJwtController {
 
     @Autowired

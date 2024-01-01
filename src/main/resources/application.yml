@@ -1,9 +1,12 @@
 server:
   port: 8080
   error:
-    include-binding-errors: always
-    include-message: always
-    include-stacktrace: never
+    path: /error
+  #SameSite Strict against CSRF Attacks
+  servlet:
+    session:
+      cookie:
+        same-site: Strict
 
 spring:
   datasource:
@@ -31,7 +34,6 @@ logging:
 
 hackers_security:
   app:
-    jwtSecret: hackSec39456!@a4
     jwtExpirationMs: 86400000
 
 info:

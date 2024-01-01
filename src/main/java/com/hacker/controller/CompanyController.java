@@ -4,6 +4,10 @@ import com.hacker.dto.CompanyDTO;
 import com.hacker.dto.response.CompanyResponse;
 import com.hacker.dto.message.ResponseMessage;
 import com.hacker.service.CompanyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/companies")
+@Tag(name = "CRUD REST APIs for Company Controller") //für Swagger
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -25,25 +30,23 @@ public class CompanyController {
     }
 
     // Get all Companies
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/allCompanies")
+    @GetMapping("/visitors/all")
     public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
         List<CompanyDTO> companyDTOList = companyService.getAllCompanies();
         return ResponseEntity.ok(companyDTOList);
     }
 
 
+
     // Get one Company
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/{id}") //http://localhost:8080/api/v1/companies/1
+    @GetMapping("/visitors/{id}")
     public ResponseEntity<CompanyDTO> getCompany(@PathVariable ("id") Integer id) {
         return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
     }
 
 
     // Create new Company
-    @PreAuthorize("hasAnyRole('ADMIN') or hasAnyRole('USER')")
-    @PostMapping("/createCompany") //localhost:8080/api/v1/companies/createCompany
+    @PostMapping("/visitors/create")
     public ResponseEntity<CompanyResponse> createCompany(@RequestBody CompanyDTO companyDTO) {
         companyService.createCompany(companyDTO);
 
@@ -53,8 +56,12 @@ public class CompanyController {
 
 
     // Update existing Company
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PutMapping("/update/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Update existing Company API", description = "Update Put REST API is used to update company into database")
+    @ApiResponse(responseCode = "200", description = "Http Status 200 CREATED")
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/auth/update/{id}")
     public ResponseEntity<CompanyResponse> updateCompany(@PathVariable Integer id,
                                                          @Valid @RequestBody CompanyDTO companyDTO) {
         companyService.updateCompany(id, companyDTO);
@@ -65,8 +72,8 @@ public class CompanyController {
 
 
     // Delete one Company
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/admin/auth/delete/{id}")
     public ResponseEntity<CompanyResponse> deleteCompany(@PathVariable Integer id) {
         companyService.deleteCompany(id);
 

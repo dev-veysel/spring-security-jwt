@@ -1,14 +1,6 @@
-# Verwende das offizielle OpenJDK-Image als Basis
 FROM openjdk:17
-
-# Setze das Arbeitsverzeichnis im Container
+LABEL maintainer="veysel@gmx.de"
 WORKDIR /app
-
-# Kopiere die JAR-Datei deiner Spring Boot-Anwendung in den Container
-COPY target/Hackers-Security1-0.0.1-SNAPSHOT.jar hackers-security-app.jar
-
-# Exponiere den Port, den deine Spring Boot-Anwendung verwendet (standardmäßig 8080)
+COPY target/*.jar /app/hackers-security-app.jar
 EXPOSE 8080
-
-# Definiere den Startbefehl für deine Anwendung
-CMD ["java", "-jar", "hackers-security-app.jar"]
+ENTRYPOINT ["java", "-jar", "hackers-security-app.jar"]
